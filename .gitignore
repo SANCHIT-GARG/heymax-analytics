@@ -1,0 +1,12 @@
+# Python
+venv/
+__pycache__/
+
+# dbt
+dbt_modules/
+dbt_packages/
+*.duckdb
+dbt_logs/
+
+# macOS
+.DS_Store
