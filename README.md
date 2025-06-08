@@ -42,3 +42,9 @@ heymax_project/
 ```bash
 git clone https://github.com/YOUR_USERNAME/heymax-analytics.git
 cd heymax-analytics
+
+python3 -m venv venv
+source venv/bin/activate
+pip install dbt-duckdb
+
+brew install duckdb

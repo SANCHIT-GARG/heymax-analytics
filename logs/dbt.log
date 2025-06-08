@@ -1,0 +1,48 @@
+[0m17:09:51.707751 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108c6ecf0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c663890>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c663750>]}
+
+
+============================== 17:09:51.713497 | 69b63001-cfa3-4dd8-8e1e-b417c4a5933b ==============================
+[0m17:09:51.713497 [info ] [MainThread]: Running with dbt=1.9.6
+[0m17:09:51.713837 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/sanchitgarg/.dbt', 'version_check': 'True', 'debug': 'False', 'log_path': 'logs', 'fail_fast': 'False', 'warn_error': 'None', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'introspect': 'True', 'static_parser': 'True', 'invocation_command': 'dbt init heymax_analytics', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'send_anonymous_usage_stats': 'True'}
+[0m17:09:51.721624 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse logging event dictionary. Failed to parse dir field: expected string or bytes-like object, got 'PosixPath'.. Dictionary: {'dir': PosixPath('/Users/sanchitgarg/.dbt')}
+[0m17:09:51.721891 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m17:09:51.722645 [debug] [MainThread]: Starter project path: /Users/sanchitgarg/Desktop/heymax_project/venv/lib/python3.13/site-packages/dbt/include/starter_project
+[0m17:09:51.726171 [info ] [MainThread]: 
+Your new dbt project "heymax_analytics" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m17:09:51.726420 [info ] [MainThread]: Setting up your profile.
+[0m17:10:59.211894 [info ] [MainThread]: Profile heymax_analytics written to /Users/sanchitgarg/.dbt/profiles.yml using target's sample configuration. Once updated, you'll be able to start developing with dbt.
+[0m17:10:59.226384 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 67.55744, "process_in_blocks": "0", "process_kernel_time": 0.186088, "process_mem_max_rss": "101056512", "process_out_blocks": "0", "process_user_time": 0.902996}
+[0m17:10:59.226904 [debug] [MainThread]: Command `dbt init` succeeded at 17:10:59.226784 after 67.56 seconds
+[0m17:10:59.227489 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c6e2650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c78a8d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10c7c4af0>]}
+[0m17:10:59.227806 [debug] [MainThread]: Flushing usage events
+[0m17:11:00.251035 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m15:11:41.206903 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1079c5be0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108757b10>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108757c50>]}
+
+
+============================== 15:11:41.211068 | 045fb9d7-a1f6-426f-bb4b-aeb2c4830e0f ==============================
+[0m15:11:41.211068 [info ] [MainThread]: Running with dbt=1.9.6
+[0m15:11:41.211392 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'version_check': 'True', 'debug': 'False', 'log_path': 'logs', 'fail_fast': 'False', 'profiles_dir': '/Users/sanchitgarg/.dbt', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'False', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'target_path': 'None', 'invocation_command': 'dbt run --select stg_events', 'send_anonymous_usage_stats': 'True'}
+[0m15:11:41.211693 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/sanchitgarg/Desktop/heymax_project/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m15:11:41.226817 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": false, "command_wall_clock_time": 0.0599605, "process_in_blocks": "0", "process_kernel_time": 0.120719, "process_mem_max_rss": "103006208", "process_out_blocks": "0", "process_user_time": 0.638436}
+[0m15:11:41.227209 [debug] [MainThread]: Command `dbt run` failed at 15:11:41.227147 after 0.06 seconds
+[0m15:11:41.227426 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10862fa80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1087b0cb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108651040>]}
+[0m15:11:41.227633 [debug] [MainThread]: Flushing usage events
+[0m15:11:42.260216 [debug] [MainThread]: An error was encountered while trying to flush usage events
