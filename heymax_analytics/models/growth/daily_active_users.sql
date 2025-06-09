@@ -8,4 +8,4 @@ SELECT
     country,
     COUNT(DISTINCT user_id) AS dau
 FROM {{ ref('fct_events') }}
-GROUP BY activity_date, country;
+GROUP BY activity_date, country
