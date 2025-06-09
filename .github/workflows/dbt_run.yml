@@ -64,7 +64,7 @@ jobs:
             HeyMax CI/CD Bot
           to: sanchit.garg07@gmail.com
           from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
-          attachments: dbt_output.log
+          attachments: ./heymax_analytics/dbt_output.log
 
       - name: 📨 Email Notification on Failure
         if: failure()
@@ -86,4 +86,4 @@ jobs:
             HeyMax CI/CD Bot
           to: sanchit.garg07@gmail.com
           from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
-          attachments: dbt_output.log
+          attachments: ./heymax_analytics/dbt_output.log
