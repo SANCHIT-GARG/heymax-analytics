@@ -1,0 +1,80 @@
+name: Run dbt and Notify via Email
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'data/**.csv'
+      - 'models/**'
+      - 'dashboard.py'
+  schedule:
+    - cron: '0 0 * * *'  # every day at midnight UTC
+
+jobs:
+  run-dbt:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🚀 Run dbt and Capture Output
+        id: run_dbt
+        run: |
+          dbt deps
+          dbt seed --full-refresh
+          dbt run | tee dbt_output.log
+
+      - name: 📨 Email Notification on Success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "✅ dbt Run Succeeded: HeyMax Analytics"
+          body: |
+            Hi there,
+
+            The dbt pipeline for HeyMax Analytics completed successfully.
+
+            Please find the attached log file for more details.
+
+            Regards,
+            HeyMax CI/CD Bot
+          to: your-email@example.com
+          from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
+          attachments: dbt_output.log
+
+      - name: 📨 Email Notification on Failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "❌ dbt Run Failed: HeyMax Analytics"
+          body: |
+            Hi there,
+
+            The dbt pipeline run has failed.
+
+            Please find the attached dbt logs to investigate the issue.
+
+            Regards,
+            HeyMax CI/CD Bot
+          to: your-email@example.com
+          from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
+          attachments: dbt_output.log
