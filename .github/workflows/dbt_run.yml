@@ -44,12 +44,6 @@ jobs:
           dbt build --profiles-dir .
           dbt run --profiles-dir . | tee dbt_output.log
 
-      - name: 🚀 Run dbt and Capture Output
-        id: run_dbt
-        run: |
-          cd heymax_analytics
-          dbt build | tee dbt_output.log
-
       - name: 📨 Email Notification on Success
         if: success()
         uses: dawidd6/action-send-mail@v3
