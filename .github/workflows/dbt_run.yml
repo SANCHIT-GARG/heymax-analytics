@@ -31,9 +31,8 @@ jobs:
       - name: 🚀 Run dbt and Capture Output
         id: run_dbt
         run: |
-          dbt deps
-          dbt seed --full-refresh
-          dbt run | tee dbt_output.log
+          cd heymax_analytics
+          dbt build | tee dbt_output.log
 
       - name: 📨 Email Notification on Success
         if: success()
