@@ -52,7 +52,7 @@ jobs:
 
             Regards,
             HeyMax CI/CD Bot
-          to: your-email@example.com
+          to: sanchit.garg07@gmail.com
           from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
           attachments: dbt_output.log
 
@@ -74,6 +74,6 @@ jobs:
 
             Regards,
             HeyMax CI/CD Bot
-          to: your-email@example.com
+          to: sanchit.garg07@gmail.com
           from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
           attachments: dbt_output.log
