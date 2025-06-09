@@ -1,0 +1,52 @@
+# dbt schema.yml using version 2 format — required for model documentation and testing
+version: 2
+
+models:
+  # Daily Active Users model documentation and tests
+  - name: daily_active_users
+    description: "Daily unique active users based on fct_events"
+    columns:
+      - name: activity_date  # The date the user was active
+        tests: [not_null]    # Ensure this value is never null
+      - name: dau            # Number of distinct users active that day
+        tests: [not_null]
+
+  # Weekly Active Users model
+  - name: weekly_active_users
+    description: "Weekly unique active users"
+    columns:
+      - name: week_start
+        tests: [not_null]
+      - name: wau
+        tests: [not_null]
+
+  # Monthly Active Users model
+  - name: monthly_active_users
+    description: "Monthly unique active users"
+    columns:
+      - name: month_start
+        tests: [not_null]
+      - name: mau
+        tests: [not_null]
+
+  # Growth Accounting metrics: new, retained, resurrected, churned
+  - name: growth_accounting
+    description: "Breakdown of active users into New, Retained, Resurrected, Churned, and Quick Ratio"
+    columns:
+      - name: activity_date  # The reporting date
+        tests: [not_null]
+      - name: new_users      # First-time users
+      - name: retained_users # Users who returned from the previous day
+      - name: resurrected_users # Users returning after being inactive
+      - name: churned_users  # Previously active but not seen today
+      - name: quick_ratio    # (New + Resurrected) / Churned
+
+  # Retention cohort model for triangle charting
+  - name: retention_cohort
+    description: "User retention by cohort_date and days since signup"
+    columns:
+      - name: cohort_date        # The user's first active day
+        tests: [not_null]
+      - name: days_since_signup  # Number of days since first seen
+        tests: [not_null]
+      - name: retained_users     # Users from the cohort active on day N

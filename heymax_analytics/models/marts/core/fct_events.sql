@@ -1,6 +1,14 @@
-{{ config(materialized='table') }}
+-- HeyMax dbt model: fct_events.sql
+-- Description: Core fact table of user events
+-- Materialized as a parquet table sorted by event_ts for performance
 
-SELECT
+{{ config(
+    materialized='table',
+    format='parquet',
+    sort='event_ts'
+) }}
+
+select
     event_ts,
     user_id,
     event_type,
@@ -9,5 +17,4 @@ SELECT
     platform,
     utm_source,
     country
-FROM {{ ref('stg_events') }}
-
+from {{ ref('stg_events') }}
