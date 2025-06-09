@@ -28,6 +28,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # - name: 🔍 Lint Python code
+      #   run: |
+      #     pip install flake8
+      #     flake8 dashboard.py
+
+      # - name: 🔍 Lint SQL files
+      #   run: |
+      #     pip install sqlfluff
+      #     sqlfluff lint heymax_analytics/models --dialect duckdb
+
+      - name: 🚀 Run dbt and Capture Output
+        run: |
+          cd heymax_analytics
+          dbt build --profiles-dir .
+          dbt run --profiles-dir . | tee dbt_output.log
+
       - name: 🚀 Run dbt and Capture Output
         id: run_dbt
         run: |
