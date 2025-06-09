@@ -6,7 +6,7 @@ on:
     branches: [ main ]
     paths:
       - 'data/**.csv'
-      - 'models/**'
+      - 'models/**/*'
       - 'dashboard.py'
   schedule:
     - cron: '0 0 * * *'   # every day at midnight UTC

@@ -125,3 +125,4 @@ with tab3:
             st.altair_chart(chart)
     else:
         st.warning("No retention data available.")
+
