@@ -1,5 +1,17 @@
+import subprocess
+import sys
+
+# Log installed packages
+subprocess.run([sys.executable, "-m", "pip", "freeze"])
+
 import streamlit as st
-import duckdb
+try:
+    import duckdb
+except ModuleNotFoundError:
+    import subprocess
+    subprocess.check_call(["pip", "install", "duckdb"])
+    import duckdb
+
 import pandas as pd
 import altair as alt
 
