@@ -1,15 +1,15 @@
 name: Run dbt and Notify via Email
 
 on:
-  workflow_dispatch:      # 👈 adds manual trigger from GitHub UI
+  workflow_dispatch:
   push:
     branches: [ main ]
-    paths:
-      - 'data/**.csv'
-      - 'models/**/*'
-      - 'dashboard.py'
+    # Add 'paths' to trigger on specific commit
   schedule:
-    - cron: '0 0 * * *'   # every day at midnight UTC
+    # Singapore is UTC+8. GitHub Actions cron uses UTC timezone.
+    # To run every 10 mins in Singapore time, use '*/10 * * * *' (runs every 10 mins UTC, which matches every 10 mins in Singapore).
+    - cron: '*/10 * * * *'
+
 jobs:
   run-dbt:
     runs-on: ubuntu-latest
