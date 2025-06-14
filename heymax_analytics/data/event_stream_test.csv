@@ -1,0 +1,4 @@
+event_time,user_id,event_type,transaction_category,miles_amount,platform,utm_source,country
+2024-01-01 10:00:00,U001,login,none,0,web,google,US
+2024-01-02 11:30:00,U002,transaction,shopping,150.5,app,facebook,IN
+2024-01-03 09:15:00,U003,transaction,travel,320.0,web,newsletter,SG
