@@ -60,6 +60,8 @@ jobs:
 
             Please find the attached log file for more details.
 
+            Dashboard: https://heymax-analytics-dev.streamlit.app/
+
             Regards,
             HeyMax CI/CD Bot
           to: sanchit.garg07@gmail.com
@@ -81,6 +83,8 @@ jobs:
             The dbt pipeline run has failed.
 
             Please find the attached dbt logs to investigate the issue.
+
+            Dashboard: https://heymax-analytics-dev.streamlit.app/
 
             Regards,
             HeyMax CI/CD Bot
