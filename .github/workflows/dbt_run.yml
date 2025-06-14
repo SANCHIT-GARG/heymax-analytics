@@ -7,8 +7,8 @@ on:
     # Add 'paths' to trigger on specific commit
   schedule:
     # Singapore is UTC+8. GitHub Actions cron uses UTC timezone.
-    # To run every 10 mins in Singapore time, use '*/10 * * * *' (runs every 10 mins UTC, which matches every 10 mins in Singapore).
-    - cron: '*/10 * * * *'
+    # To run every 1 hour in Singapore time, use '0 * * * *' (runs at the start of every hour UTC, which matches every hour in Singapore).
+    - cron: '0 * * * *'
 
 permissions:
   contents: write
