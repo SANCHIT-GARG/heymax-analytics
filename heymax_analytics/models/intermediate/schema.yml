@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: fct_events
+    description: "Canonical event-level fact table used for user lifecycle metrics"
+    columns:
+      - name: event_ts
+        description: "Timestamp of the event"
+        tests: [not_null]
+
+      - name: activity_month
+        description: "Truncated month from event timestamp"
+        tests: [not_null]
+
+      - name: user_id
+        description: "User who performed the event"
+        tests: [not_null]
+
+      - name: event_type
+        description: "Type of event"
+        tests: [not_null]
+
+  - name: dim_users
+    description: "User dimension table containing first seen timestamp"
+    columns:
+      - name: user_id
+        description: "Unique user ID"
+        tests: [not_null, unique]
+
+      - name: first_seen_ts
+        description: "Timestamp of user's first event"
+        tests: [not_null]
+
+      - name: first_seen_date
+        description: "First active date (day granularity)"
+        tests: [not_null]
+
+      - name: first_seen_month
+        description: "First active month"
+        tests: [not_null]
+
+  - name: user_lifecycle
+    description: "Assigns lifecycle status to each user for every month"
+    columns:
+      - name: user_id
+        description: "User ID"
+        tests: [not_null]
+
+      - name: activity_month
+        description: "The month of analysis"
+        tests: [not_null]
+
+      - name: user_status
+        description: "Lifecycle classification: new, retained, resurrected, churned"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['new', 'retained', 'resurrected', 'churned']

@@ -13,3 +13,17 @@ Try running the following commands:
 - Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
 - Find [dbt events](https://events.getdbt.com) near you
 - Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+
+
+models/
+├── staging/
+│   ├── stg_events.sql
+│   └── schema.yml
+├── intermediate/
+│   ├── dim_users.sql
+│   ├── fct_events.sql
+│   ├── user_lifecycle.sql
+│   └── schema.yml
+├── marts/
+│   ├── growth_metrics.sql
+│   └── schema.yml

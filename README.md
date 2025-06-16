@@ -172,3 +172,24 @@ This stack is modular and built to grow. Here's how to take it to the next level
 Feel free to reach out or submit an issue. Happy building!
 
 — Built with ❤️ by the first Analytics Engineer at HeyMax
+
+
+
+
+
+repo link. 
+cd heymax-analytics
+
+
+models/
+├── staging/
+│   ├── stg_events.sql
+│   └── schema.yml
+├── intermediate/
+│   ├── dim_users.sql
+│   ├── fct_events.sql
+│   ├── user_lifecycle.sql
+│   └── schema.yml
+├── marts/
+│   ├── growth_metrics.sql
+│   └── schema.yml

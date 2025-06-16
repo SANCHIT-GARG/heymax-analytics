@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: stg_events
+    description: "Cleaned and typed event stream data from raw CSV"
+    columns:
+      - name: event_ts
+        description: "Event timestamp"
+        tests: [not_null]
+
+      - name: activity_date
+        description: "Date truncated from event timestamp"
+        tests: [not_null]
+
+      - name: activity_month
+        description: "Month-level timestamp for aggregation"
+        tests: [not_null]
+
+      - name: user_id
+        description: "Unique user ID"
+        tests: [not_null]
+
+      - name: event_type
+        description: "Type of event (e.g., miles_earned, share)"
+        tests: [not_null]
+
+      - name: transaction_category
+        description: "Category of transaction (e.g., dining, flight)"
+        tests: []
+
+      - name: miles_amount
+        description: "Number of miles earned or redeemed"
+        tests: []
+
+      - name: platform
+        description: "Platform used by user (web, ios, android)"
+        tests: []
+
+      - name: utm_source
+        description: "Marketing attribution source"
+        tests: []
+
+      - name: country
+        description: "User's country code"
+        tests: []
