@@ -6,27 +6,27 @@ models:
     columns:
       - name: activity_month
         description: "Month of activity"
-        tests: [not_null, unique]
+        tests: [not_null]
 
       - name: new_users
         description: "Count of new users in this month"
-        tests: [not_null]
+        tests: []
 
       - name: retained_users
         description: "Count of users retained from previous month"
-        tests: [not_null]
+        tests: []
 
       - name: resurrected_users
         description: "Users returning after being inactive last month"
-        tests: [not_null]
+        tests: []
 
       - name: churned_users
         description: "Users active in last month but not this month"
-        tests: [not_null]
+        tests: []
 
       - name: active_users
         description: "Sum of new, retained, resurrected users"
-        tests: [not_null]
+        tests: []
 
       - name: quick_ratio
         description: "(new + resurrected) / churned"

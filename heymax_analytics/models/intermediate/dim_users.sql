@@ -14,5 +14,7 @@ SELECT
     fe.user_id,
     fe.first_seen_ts,
     DATE_TRUNC('day', fe.first_seen_ts) AS first_seen_date,
-    DATE_TRUNC('month', fe.first_seen_ts) AS first_seen_month
+    DATE_TRUNC('month', fe.first_seen_ts) AS first_seen_month,
+    DATE_TRUNC('week', fe.first_seen_ts) AS first_seen_week
+
 FROM first_event fe

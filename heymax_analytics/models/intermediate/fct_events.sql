@@ -8,6 +8,7 @@ SELECT
     event_ts,
     activity_date,
     activity_month,
+    activity_week,
     user_id,
     event_type,
     transaction_category,

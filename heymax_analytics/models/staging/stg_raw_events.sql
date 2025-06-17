@@ -2,4 +2,4 @@
 {{ config(materialized='table') }}
 
 SELECT *
-FROM read_csv_auto('data/event_stream.csv')
+FROM read_csv_auto('data/*.csv')
