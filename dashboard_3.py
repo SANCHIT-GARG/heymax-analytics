@@ -13,27 +13,27 @@ def load_data():
     monthly_df = con.execute("SELECT * FROM growth_metrics ORDER BY activity_month").df()
     monthly_df["activity_month"] = pd.to_datetime(monthly_df["activity_month"])
     monthly_df["period_str"] = monthly_df["activity_month"].dt.strftime("%Y-%m")
-    monthly_df.fillna(0, inplace=True)
+    # monthly_df.fillna(0, inplace=True)
     for col in ["new_users", "resurrected_users", "churned_users", "retained_users", "active_users", "retention_rate", "quick_ratio"]:
-        monthly_df[col] = pd.to_numeric(monthly_df[col], errors="coerce").fillna(0)
+        monthly_df[col] = pd.to_numeric(monthly_df[col], errors="coerce") #.fillna(0)
     monthly_df["period_str"] = pd.Categorical(monthly_df["period_str"], categories=monthly_df["period_str"].unique(), ordered=True)
 
     # Weekly
     weekly_df = con.execute("SELECT * FROM growth_metrics_week ORDER BY activity_week").df()
     weekly_df["activity_week"] = pd.to_datetime(weekly_df["activity_week"])
     weekly_df["period_str"] = weekly_df["activity_week"].dt.strftime("%Y-%m-%d")
-    weekly_df.fillna(0, inplace=True)
+    # weekly_df.fillna(0, inplace=True)
     for col in ["new_users", "resurrected_users", "churned_users", "retained_users", "active_users", "retention_rate", "quick_ratio"]:
-        weekly_df[col] = pd.to_numeric(weekly_df[col], errors="coerce").fillna(0)
+        weekly_df[col] = pd.to_numeric(weekly_df[col], errors="coerce") #.fillna(0)
     weekly_df["period_str"] = pd.Categorical(weekly_df["period_str"], categories=weekly_df["period_str"].unique(), ordered=True)
 
     # Daily
     daily_df = con.execute("SELECT * FROM growth_metrics_daily ORDER BY activity_date").df()
     daily_df["activity_date"] = pd.to_datetime(daily_df["activity_date"])
     daily_df["period_str"] = daily_df["activity_date"].dt.strftime("%Y-%m-%d")
-    daily_df.fillna(0, inplace=True)
+    # daily_df.fillna(0, inplace=True)
     for col in ["new_users", "resurrected_users", "churned_users", "retained_users", "active_users", "retention_rate", "quick_ratio"]:
-        daily_df[col] = pd.to_numeric(daily_df[col], errors="coerce").fillna(0)
+        daily_df[col] = pd.to_numeric(daily_df[col], errors="coerce") #.fillna(0)
     daily_df["period_str"] = pd.Categorical(daily_df["period_str"], categories=daily_df["period_str"].unique(), ordered=True)
 
     # Retention Triangles
@@ -153,10 +153,8 @@ def make_bar(title, y_col, color, label):
 #     )
 #     return fig
 
-def make_combined_chart(df, period_col, label):
-    import plotly.graph_objects as go
-    import numpy as np
 
+def make_combined_chart(df, period_col, label):
     fig = go.Figure()
 
     # ✅ Bars: ensure correct values (not row counts)
@@ -165,18 +163,23 @@ def make_combined_chart(df, period_col, label):
     # fig.add_trace(go.Bar(x=df[period_col].tolist(), y=df["retained_users"].tolist(), name="Retained", marker_color="#2196F3"))
     fig.add_trace(go.Bar(x=df[period_col].tolist(), y=[-v for v in df["churned_users"].tolist()], name="Churned", marker_color="#f44336"))
 
-    # Line traces (right y-axis)
+
+    # ✅ Clean line data
+    retention_rate = (df["retention_rate"] * 100).round(2)
+    quick_ratio = df["quick_ratio"].round(2)
+
     fig.add_trace(go.Scatter(
-        x=df[period_col].tolist(),
-        y=(df["retention_rate"] * 100).round(2).tolist(),
+        x=df[period_col][retention_rate.notna()].to_list(),
+        y=retention_rate[retention_rate.notna()].to_list(),
         name="Retention Rate (%)",
         mode="lines+markers",
         yaxis="y2",
         line=dict(color="blue", dash="dot")
     ))
+
     fig.add_trace(go.Scatter(
-        x=df[period_col].tolist(),
-        y=df["quick_ratio"].round(2).tolist(),
+        x=df[period_col][quick_ratio.notna()].to_list(),
+        y=quick_ratio[quick_ratio.notna()].to_list(),
         name="Quick Ratio",
         mode="lines+markers",
         yaxis="y2",
@@ -192,9 +195,8 @@ def make_combined_chart(df, period_col, label):
     y1_max = (df["new_users"] + df["resurrected_users"]).max()
 
     # Right (Ratios)
-    y2_min = min((df["retention_rate"] * 100).min(), df["quick_ratio"].min())
-    y2_max = max((df["retention_rate"] * 100).max(), df["quick_ratio"].max())
-
+    y2_min = min(retention_rate.min(skipna=True), quick_ratio.min(skipna=True))
+    y2_max = max(retention_rate.max(skipna=True), quick_ratio.max(skipna=True))    
     # Normalize both to same proportional range around zero
     y1_range = max(abs(y1_min), abs(y1_max))
     y2_range = max(abs(y2_min), abs(y2_max))
@@ -226,7 +228,7 @@ def make_combined_chart(df, period_col, label):
         legend=dict(
             orientation="h",
             yanchor="bottom",
-            y=-0.35,  # 📦 Push legend below the chart
+            y=-0.35,
             xanchor="center",
             x=0.5,
             font=dict(size=12)
@@ -265,6 +267,11 @@ with tab1:
 
 # --- Tab 2 ---
 with tab2:
+
+    # 📊 Display raw data table first
+    st.subheader("📄 Raw Growth Metrics Data")
+    st.dataframe(filtered_df)
+
     st.plotly_chart(make_combined_chart(filtered_df, "period_str", "Period"), use_container_width=True)
 
     csv_growth = filtered_df.to_csv(index=False).encode("utf-8")
