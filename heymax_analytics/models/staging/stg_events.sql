@@ -10,8 +10,8 @@ SELECT
     -- Cast and rename raw columns
     CAST(event_time AS TIMESTAMP) AS event_ts,
     DATE_TRUNC('day', CAST(event_time AS TIMESTAMP)) AS activity_date,
-    DATE_TRUNC('month', CAST(event_time AS TIMESTAMP)) AS activity_month,
-    DATE_TRUNC('week', CAST(event_time AS TIMESTAMP)) AS activity_week,
+    DATE_TRUNC('month', CAST(event_time AS TIMESTAMP)) + INTERVAL '1 month' - INTERVAL '1 day' AS activity_month,
+    DATE_TRUNC('week', CAST(event_time AS TIMESTAMP)) + INTERVAL '6 day' AS activity_week,
 
     -- User & event info
     CAST(user_id AS TEXT) AS user_id,

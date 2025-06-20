@@ -3,6 +3,7 @@ import duckdb
 import pandas as pd
 import re
 import plotly.graph_objects as go
+import openai
 
 # --- Connect to DuckDB ---
 con = duckdb.connect("heymax.duckdb")
@@ -54,6 +55,8 @@ def load_data():
 # Load Data
 monthly_df, weekly_df, daily_df, retention_month, retention_week , retention_day = load_data()
 
+# st.set_page_config(page_title="Growth Metrics Dashboard", layout="wide")
+st.title("📊 Growth Metrics Dashboard")
 # --- UI Toggle ---
 view_option = st.radio("Select Time Granularity:", ["Monthly", "Weekly","Daily"])
 
@@ -78,12 +81,76 @@ elif view_option == "Daily":
 
 # --- Filters ---
 st.sidebar.header(f"📅 Filter by {label}")
-all_periods = df[time_col].tolist()
-selected_range = st.sidebar.slider(f"Select {label} Range", min_value=0, max_value=len(all_periods)-1, value=(0, len(all_periods)-1))
-filtered_df = df.iloc[selected_range[0]:selected_range[1]+1]
+
+# Detect actual date column (datetime)
+date_col_map = {
+    "Monthly": "activity_month",
+    "Weekly": "activity_week",
+    "Daily": "activity_date"
+}
+true_time_col = date_col_map[view_option]
+df[true_time_col] = pd.to_datetime(df[true_time_col])  # Ensure proper type
+
+# Determine min/max
+min_date = df[true_time_col].min().date()
+max_date = df[true_time_col].max().date()
+
+# Sidebar inputs with default to full range
+start_date = st.sidebar.date_input(f"Start {label}", value=min_date, min_value=min_date, max_value=max_date)
+end_date = st.sidebar.date_input(f"End {label}", value=max_date, min_value=min_date, max_value=max_date)
+
+# Validate and filter
+if start_date > end_date:
+    st.sidebar.warning("⚠️ Start date is after end date. Please correct it.")
+    filtered_df = df.iloc[0:0]
+else:
+    mask = (df[true_time_col].dt.date >= start_date) & (df[true_time_col].dt.date <= end_date)
+    filtered_df = df[mask]
+
+
+# --- Sidebar LLM Chat ---
+st.sidebar.markdown("💡 ** Generate Insights with AI **")
+user_prompt = st.sidebar.text_area("Ask a question about the filtered data:" , 
+                                   placeholder="e.g. What is the best month for business?")
+
+if st.sidebar.button("🔍 Generate Insight") and user_prompt:
+    # Sample data snapshot for context (limit for token usage)
+    # context_df = filtered_df.to_markdown(index=False)
+    # retention_preview = retention_df.to_markdown()
+
+    context = f"""
+    You are a helpful data analyst assistant. Based on the user's filtered data below, answer their question.
+    Give bulleted insights in less than 100 words.
+
+    Filtered Growth Metrics:
+    {filtered_df}
+
+    Retention Triangle (first few rows):
+    {retention_df}
+
+    Question:
+    {user_prompt}
+    """
+
+    # 🔐 Load OpenAI key securely
+    
+    # Uncomment the line below to use Streamlit secrets in production.
+    # client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"]) 
+    OPENAI_API_KEY =  "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"
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+    # 🔁 Call the OpenAI model
+    response = client.chat.completions.create(
+        model="gpt-4o",  # or "gpt-4o-mini" if using Hugging Face proxy
+        messages=[{"role": "user", "content": context}]
+    )
+
+    st.sidebar.markdown("### 📊 Insight")
+    st.sidebar.write(response.choices[0].message.content)
+
+
 
 # --- KPIs ---
-st.title("📊 Growth Metrics Dashboard")
 st.subheader("📌 Key Performance Indicators")
 if not filtered_df.empty:
     latest = filtered_df.sort_values(by=time_col).iloc[-1]
@@ -97,10 +164,10 @@ if not filtered_df.empty:
 # --- Tabs ---
 tab1, tab2 = st.tabs(["📈 Individual Metrics", "📊 Combined Breakdown + Retention"])
 
-def make_bar(title, y_col, color, label):
+def make_bar(title, y_col, color, label, period_col="period_str"):
     fig = go.Figure()
     fig.add_trace(go.Bar(
-        x=filtered_df[time_col].tolist(),
+        x=filtered_df[period_col].tolist(),
         y=filtered_df[y_col].tolist(),
         name=label,
         marker_color=color,
@@ -109,50 +176,16 @@ def make_bar(title, y_col, color, label):
     ))
     fig.update_layout(
         title=title,
-        xaxis_title=label,
+        xaxis=dict(
+            title=label,
+            type="category",
+            tickangle=-45  # 🧭 Rotate x-ticks to reduce overlap
+        ),
         yaxis_title="Users",
         bargap=0.2,
         showlegend=False
     )
     return fig
-
-# def make_combined_chart(df, period_col, label):
-#     fig = go.Figure()
-
-#     # ✅ Bars: ensure correct values (not row counts)
-#     fig.add_trace(go.Bar(x=df[period_col].tolist(), y=df["new_users"].tolist(), name="New Users", marker_color="#4CAF50"))
-#     fig.add_trace(go.Bar(x=df[period_col].tolist(), y=df["resurrected_users"].tolist(), name="Resurrected", marker_color="#FFC107"))
-#     # fig.add_trace(go.Bar(x=df[period_col].tolist(), y=df["retained_users"].tolist(), name="Retained", marker_color="#2196F3"))
-#     fig.add_trace(go.Bar(x=df[period_col].tolist(), y=[-v for v in df["churned_users"].tolist()], name="Churned", marker_color="#f44336"))
-
-#     # ✅ Lines: for ratios
-#     fig.add_trace(go.Scatter(
-#         x=df[period_col].tolist(),
-#         y=(df["retention_rate"].fillna(0) * 100).round(2).tolist(),
-#         name="Retention Rate (%)",
-#         mode="lines+markers",
-#         yaxis="y2",
-#         line=dict(color="orange", dash="dot")
-#     ))
-#     fig.add_trace(go.Scatter(
-#         x=df[period_col].tolist(),
-#         y=df["quick_ratio"].fillna(0).round(2).tolist(),
-#         name="Quick Ratio",
-#         mode="lines+markers",
-#         yaxis="y2",
-#         line=dict(color="purple")
-#     ))
-
-#     fig.update_layout(
-#         barmode="relative",
-#         title="📊 Combined Growth Breakdown",
-#         xaxis=dict(title=label, type="category"),
-#         yaxis=dict(title="User Count"),
-#         yaxis2=dict(title="Ratios", overlaying="y", side="right"),
-#         legend=dict(orientation="h", y=1.12, x=0.5, xanchor="center")
-#     )
-#     return fig
-
 
 def make_combined_chart(df, period_col, label):
     fig = go.Figure()

@@ -3,9 +3,9 @@
 WITH base_events AS (
     SELECT
         user_id,
-        DATE_TRUNC('week', event_ts) AS activity_week
+        activity_week
     FROM {{ ref('fct_events') }}
-    GROUP BY user_id, DATE_TRUNC('week', event_ts)
+    GROUP BY user_id, activity_week
 ),
 
 first_seen AS (

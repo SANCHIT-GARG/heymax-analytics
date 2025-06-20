@@ -3,9 +3,9 @@
 WITH base_events AS (
     SELECT
         user_id,
-        DATE_TRUNC('month', event_ts) AS activity_month
+        activity_month
     FROM {{ ref('fct_events') }}
-    GROUP BY user_id, DATE_TRUNC('month', event_ts)
+    GROUP BY user_id, activity_month
 ),
 
 first_seen AS (
