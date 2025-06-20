@@ -3,7 +3,7 @@
 This project sets up an end-to-end open-source data and analytics pipeline for HeyMax — built using:
 
 - 🐣 DuckDB as the lightweight analytical warehouse
-- 🛠 dbt for modeling (with staging, core, and growth layers)
+- 🛠 dbt for modeling (with staging, intermediate, and growth layers)
 - 📊 Streamlit for interactive growth dashboards
 - ✅ All in a single GitHub repo — easily portable and reproducible
 
@@ -20,6 +20,7 @@ heymax_project/
 │
 ├── heymax_analytics/         # dbt project folder
 │   ├── dbt_project.yml
+│   ├── dbt_profile.yml
 │   ├── models/
 │   │   ├── staging/          # stg_events.sql (materialized as table to inspect raw data)
 │   │   ├── core/             # dim_users, fct_events (materialized as parquet tables)
@@ -33,11 +34,11 @@ heymax_project/
 
 ## ⚙️ Setup Instructions
 
-### 1. Clone and create virtual environment
+### 1. Clone and create virtual environment (Recommended version : Python 3.11)
 ```bash
 git clone https://github.com/yourusername/heymax_project.git
 cd heymax_project
-python3 -m venv venv
+python3.11 -m venv venv
 source venv/bin/activate
 ```
 
