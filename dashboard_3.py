@@ -131,13 +131,13 @@ if st.sidebar.button("🔍 Generate Insight") and user_prompt:
     Question:
     {user_prompt}
     """
-
-    # 🔐 Load OpenAI key securely
     
-    # Uncomment the line below to use Streamlit secrets in production.
-    # client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"]) 
-    OPENAI_API_KEY =  "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"
-    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+    # Use the code below to use Streamlit secrets in production.
+    client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"]) 
+
+    # Alternatively, you can set the API key directly in your environment or use a config file. (Local Setup)
+    # OPENAI_API_KEY
+    # client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
     # 🔁 Call the OpenAI model
     response = client.chat.completions.create(
