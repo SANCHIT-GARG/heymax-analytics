@@ -47,7 +47,7 @@ jobs:
           dbt build --profiles-dir .
           dbt run --profiles-dir . | tee dbt_output.log
       
-            - name: 📚 Generate dbt Docs
+      - name: 📚 Generate dbt Docs
         run: |
           cd heymax_analytics
           dbt docs generate --profiles-dir .
