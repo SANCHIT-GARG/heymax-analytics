@@ -8,7 +8,6 @@ import openai
 # --- Connect to DuckDB ---
 con = duckdb.connect("heymax.duckdb")
 
-# @st.cache_data
 def load_data():
     # Monthly
     monthly_df = con.execute("SELECT * FROM growth_metrics_monthly ORDER BY activity_month").df()
