@@ -11,7 +11,7 @@ con = duckdb.connect("heymax.duckdb")
 @st.cache_data
 def load_data():
     # Monthly
-    monthly_df = con.execute("SELECT * FROM growth_metrics_monthly ORDER BY activity_month").df()
+    monthly_df = con.execute("SELECT * FROM growth_metrics ORDER BY activity_month").df()
     monthly_df["activity_month"] = pd.to_datetime(monthly_df["activity_month"])
     monthly_df["period_str"] = monthly_df["activity_month"].dt.strftime("%Y-%m")
     # monthly_df.fillna(0, inplace=True)
