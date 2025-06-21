@@ -1,12 +1,14 @@
 {{
     config(
-        materialized='table',
+        materialized='incremental',
+        incremental_strategy='delete+insert',
         unique_key='user_id',
         partition_by={
             'field': 'activity_week',
             'data_type': 'date'
         },
-        sort=['activity_week']
+        sort=['activity_week'],
+        format='parquet'
     )
 }}
 

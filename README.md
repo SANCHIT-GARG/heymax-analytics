@@ -51,21 +51,24 @@ project/
 │   │   │   ├── user_lifecycle_monthly.sql
 │   │   │   └── schema.yml
 │   │   ├── growth/
-│   │   │   ├── growth_metrics.sql
+│   │   │   ├── growth_metrics_monthly.sql
 │   │   │   ├── growth_metrics_week.sql
 │   │   │   ├── growth_metrics_daily.sql
-│   │   │   ├── retention_triangle.sql
+│   │   │   ├── retention_triangle_monthly.sql
 │   │   │   ├── retention_triangle_week.sql
 │   │   │   ├── retention_triangle_daily.sql
 │   │   │   └── schema.yml
-│   ├── data/event_stream.csv
+│   ├── data/
+│   │   ├── event_stream.csv
 │   ├── dbt_project.yml
 │   ├── profiles.yml
 │
 ├── dashboard.py
-├── .github/workflows/dbt_run.yml
-├── requirements.txt
+├── .github/
+│   ├──workflows/
+│   │   ├──dbt_run.yml
 ├── heymax.duckdb
+├── requirements.txt
 └── README.md
 ```
 
@@ -93,10 +96,12 @@ source heymax_env/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Run dbt Models
+### 4. Build dbt Models (Run docs generate and docs build command for auto-generated documentation for your dbt project)
 
 ```bash
 dbt build
+dbt docs generate
+dbt docs serve
 ```
 
 ### 5. Launch Streamlit Dashboard
@@ -140,19 +145,18 @@ api_key = "your-openai-key"
 
 ---
 
-## 🧮 dbt Model Recommendations
+## 🧮 dbt Modelling
 
 | Model Name                  | Materialization   | Strategy                  | Format    | Notes |
 |----------------------------|-------------------|---------------------------|-----------|-------|
-| `stg_raw_events`           | `view`            | —                         | —         | Light transformations |
-| `stg_events`               | `view`            | —                         | —         | Cleansed staging |
+| `stg_raw_events`           | `table`           | Full refresh              | Parquet   | Raw Data |
+| `stg_events`               | `table`           | Full refresh              | Parquet   | Raw Formated and Cleaned Data |
 | `dim_users`                | `table`           | Full refresh              | Parquet   | Stable dim table |
 | `fct_events`               | `incremental`     | `delete+insert`           | Parquet   | Append-safe fact model |
-| `user_lifecycle_*`         | `table`           | Full refresh              | Parquet   | Use one per granularity (daily, weekly, monthly) |
-| `growth_metrics*`          | `incremental`     | `delete+insert`           | Parquet   | Metric aggregations |
-| `retention_triangle*`      | `table`           | Full refresh              | Parquet   | Best for snapshot-style matrix |
+| `user_lifecycle_*`         | `incremental`     | `delete+insert`           | Parquet   | Use one per granularity (daily, weekly, monthly) |
+| `growth_metrics*`          | `View`            | -                         | Parquet   | Metric aggregations |
+| `retention_triangle*`      | `View`            | -                         | Parquet   | Metric aggregations |
 
-Use `{{ config(materialized='incremental', incremental_strategy='delete+insert', format='parquet') }}` for incremental models.
 
 
 ## 📬 Contact
