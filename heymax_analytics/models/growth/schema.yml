@@ -6,34 +6,42 @@ models:
     columns:
       - name: activity_month
         description: "Month of activity"
+        data_type: date
         tests: [not_null, unique]
 
       - name: new_users
         description: "Count of new users in this month"
+        data_type: integer
         tests: []
 
       - name: retained_users
         description: "Count of users retained from previous month"
+        data_type: integer
         tests: []
 
       - name: resurrected_users
         description: "Users returning after being inactive last month"
+        data_type: integer
         tests: []
 
       - name: churned_users
         description: "Users active in last month but not this month"
+        data_type: integer
         tests: []
 
       - name: active_users
         description: "Sum of new, retained, resurrected users"
+        data_type: integer
         tests: []
 
       - name: quick_ratio
         description: "(new + resurrected) / churned"
+        data_type: float
         tests: []
 
       - name: retention_rate
         description: "retained / active users from previous month"
+        data_type: float
         tests: []
 
   - name: growth_metrics_week
@@ -41,34 +49,42 @@ models:
     columns:
       - name: activity_week
         description: "Week of activity"
+        data_type: date
         tests: [not_null, unique]
 
       - name: new_users
         description: "Count of new users in this week"
+        data_type: integer
         tests: []
 
       - name: retained_users
         description: "Count of users retained from previous week"
+        data_type: integer
         tests: []
 
       - name: resurrected_users
         description: "Users returning after being inactive last week"
+        data_type: integer
         tests: []
 
       - name: churned_users
         description: "Users active in last week but not this week"
+        data_type: integer
         tests: []
 
       - name: active_users
         description: "Sum of new, retained, resurrected users"
+        data_type: integer
         tests: []
 
       - name: quick_ratio
         description: "(new + resurrected) / churned"
+        data_type: float
         tests: []
 
       - name: retention_rate
         description: "retained / active users from previous week"
+        data_type: float
         tests: []
 
   - name: growth_metrics_daily
@@ -76,34 +92,42 @@ models:
     columns:
       - name: activity_date
         description: "Date of activity"
+        data_type: date
         tests: [not_null, unique]
 
       - name: new_users
         description: "Count of new users on this day"
+        data_type: integer
         tests: []
 
       - name: retained_users
         description: "Count of users retained from previous day"
+        data_type: integer
         tests: []
 
       - name: resurrected_users
         description: "Users returning after being inactive the previous day"
+        data_type: integer
         tests: []
 
       - name: churned_users
         description: "Users active on the previous day but not today"
+        data_type: integer
         tests: []
 
       - name: active_users
         description: "Sum of new, retained, resurrected users"
+        data_type: integer
         tests: []
 
       - name: quick_ratio
         description: "(new + resurrected) / churned"
+        data_type: float
         tests: []
 
       - name: retention_rate
         description: "retained / active users from previous day"
+        data_type: float
         tests: []
 
   - name: retention_triangle_monthly
@@ -111,30 +135,37 @@ models:
     columns:
       - name: cohort_month
         description: "Month when the cohort was first active"
+        data_type: date
         tests: [not_null, unique]
 
       - name: m0
         description: "Retention rate for the cohort in the first month"
+        data_type: float
         tests: []
 
       - name: m1
         description: "Retention rate for the cohort in the second month"
+        data_type: float
         tests: []
 
       - name: m2
         description: "Retention rate for the cohort in the third month"
+        data_type: float
         tests: []
 
       - name: m3
         description: "Retention rate for the cohort in the fourth month"
+        data_type: float
         tests: []
 
       - name: m4
         description: "Retention rate for the cohort in the fifth month"
+        data_type: float
         tests: []
 
       - name: m5
         description: "Retention rate for the cohort in the sixth month"
+        data_type: float
         tests: []
 
   - name: retention_triangle_week
@@ -142,54 +173,67 @@ models:
     columns:
       - name: cohort_week
         description: "Week when the cohort was first active"
+        data_type: date
         tests: [not_null, unique]
 
       - name: w0
         description: "Retention rate for the cohort in the first week"
+        data_type: float
         tests: []
 
       - name: w1
         description: "Retention rate for the cohort in the second week"
+        data_type: float
         tests: []
 
       - name: w2
         description: "Retention rate for the cohort in the third week"
+        data_type: float
         tests: []
 
       - name: w3
         description: "Retention rate for the cohort in the fourth week"
+        data_type: float
         tests: []
 
       - name: w4
         description: "Retention rate for the cohort in the fifth week"
+        data_type: float
         tests: []
 
       - name: w5
         description: "Retention rate for the cohort in the sixth week"
+        data_type: float
         tests: []
 
       - name: w6
         description: "Retention rate for the cohort in the seventh week"
+        data_type: float
         tests: []
 
       - name: w7
         description: "Retention rate for the cohort in the eighth week"
+        data_type: float
         tests: []
 
       - name: w8
         description: "Retention rate for the cohort in the ninth week"
+        data_type: float
         tests: []
 
       - name: w9
         description: "Retention rate for the cohort in the tenth week"
+        data_type: float
         tests: []
 
       - name: w10
         description: "Retention rate for the cohort in the eleventh week"
+        data_type: float
         tests: []
 
       - name: w11
         description: "Retention rate for the cohort in the twelfth week"
+        data_type: float
         tests: []
 
   - name: retention_triangle_daily
@@ -197,44 +241,55 @@ models:
     columns:
       - name: cohort_date
         description: "Date when the cohort was first active"
+        data_type: date
         tests: [not_null, unique]
 
       - name: d0
         description: "Retention rate for the cohort on the first day"
+        data_type: float
         tests: []
 
       - name: d1
         description: "Retention rate for the cohort on the second day"
+        data_type: float
         tests: []
 
       - name: d2
         description: "Retention rate for the cohort on the third day"
+        data_type: float
         tests: []
 
       - name: d3
         description: "Retention rate for the cohort on the fourth day"
+        data_type: float
         tests: []
 
       - name: d4
         description: "Retention rate for the cohort on the fifth day"
+        data_type: float
         tests: []
 
       - name: d5
         description: "Retention rate for the cohort on the sixth day"
+        data_type: float
         tests: []
 
       - name: d6
         description: "Retention rate for the cohort on the seventh day"
+        data_type: float
         tests: []
 
       - name: d7
         description: "Retention rate for the cohort on the eighth day"
+        data_type: float
         tests: []
 
       - name: d8
         description: "Retention rate for the cohort on the ninth day"
+        data_type: float
         tests: []
 
       - name: d9
         description: "Retention rate for the cohort on the tenth day"
+        data_type: float
         tests: []

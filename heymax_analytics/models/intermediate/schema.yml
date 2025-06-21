@@ -6,18 +6,22 @@ models:
     columns:
       - name: event_ts
         description: "Timestamp of the event"
+        data_type: timestamp
         tests: [not_null]
 
       - name: activity_month
         description: "Truncated month from event timestamp"
+        data_type: date
         tests: [not_null]
 
       - name: user_id
         description: "User who performed the event"
+        data_type: string
         tests: [not_null]
 
       - name: event_type
         description: "Type of event"
+        data_type: string
         tests: [not_null]
 
   - name: dim_users
@@ -25,22 +29,27 @@ models:
     columns:
       - name: user_id
         description: "Unique user ID"
+        data_type: string
         tests: [not_null, unique]
 
       - name: first_seen_ts
         description: "Timestamp of user's first event"
+        data_type: timestamp
         tests: [not_null]
 
       - name: first_seen_date
         description: "First active date (day granularity)"
+        data_type: date
         tests: [not_null]
 
       - name: first_seen_month
         description: "First active month"
+        data_type: date
         tests: [not_null]
       
       - name: first_seen_week
         description: "First active week"
+        data_type: date
         tests: [not_null]
 
   - name: user_lifecycle_week
@@ -48,14 +57,17 @@ models:
     columns:
       - name: user_id
         description: "User ID"
+        data_type: string
         tests: [not_null]
 
       - name: activity_week
         description: "The week of analysis"
+        data_type: date
         tests: [not_null]
 
       - name: user_status
         description: "Lifecycle classification: new, retained, resurrected, churned"
+        data_type: string
         tests:
           - not_null
           - accepted_values:
@@ -66,14 +78,17 @@ models:
     columns:
       - name: user_id
         description: "User ID"
+        data_type: string
         tests: [not_null]
 
       - name: activity_date
         description: "The day of analysis"
+        data_type: date
         tests: [not_null]
 
       - name: user_status
         description: "Lifecycle classification: new, retained, resurrected, churned"
+        data_type: string
         tests:
           - not_null
           - accepted_values:
@@ -84,16 +99,18 @@ models:
     columns:
       - name: user_id
         description: "User ID"
+        data_type: string
         tests: [not_null]
 
       - name: activity_month
         description: "The month of analysis"
+        data_type: date
         tests: [not_null]
 
       - name: user_status
         description: "Lifecycle classification: new, retained, resurrected, churned"
+        data_type: string
         tests:
           - not_null
           - accepted_values:
               values: ['new', 'retained', 'resurrected', 'churned']
-

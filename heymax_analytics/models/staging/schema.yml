@@ -6,40 +6,99 @@ models:
     columns:
       - name: event_ts
         description: "Event timestamp"
+        data_type: timestamp
         tests: [not_null]
 
       - name: activity_date
         description: "Date truncated from event timestamp"
+        data_type: date
         tests: [not_null]
 
       - name: activity_month
         description: "Month-level timestamp for aggregation"
+        data_type: date
+        tests: [not_null]
+      
+      - name: activity_week
+        description: "Week-level timestamp for aggregation"
+        data_type: date
         tests: [not_null]
 
       - name: user_id
         description: "Unique user ID"
+        data_type: string
         tests: [not_null]
 
       - name: event_type
         description: "Type of event (e.g., miles_earned, share)"
+        data_type: string
         tests: [not_null]
 
       - name: transaction_category
         description: "Category of transaction (e.g., dining, flight)"
+        data_type: string
         tests: []
 
       - name: miles_amount
         description: "Number of miles earned or redeemed"
+        data_type: integer
         tests: []
 
       - name: platform
         description: "Platform used by user (web, ios, android)"
+        data_type: string
         tests: []
 
       - name: utm_source
         description: "Marketing attribution source"
+        data_type: string
         tests: []
 
       - name: country
         description: "User's country code"
+        data_type: string
         tests: []
+
+  - name: stg_raw_events
+    description: "Cleaned and typed event stream data from raw CSV"
+    columns:
+      - name: event_time
+        description: "Event timestamp"
+        # data_type: timestamp
+        # tests: [not_null]
+
+      - name: user_id
+        description: "Unique user ID"
+        # data_type: string
+        # tests: [not_null]
+
+      - name: event_type
+        description: "Type of event (e.g., miles_earned, share)"
+        # data_type: string
+        # tests: [not_null]
+
+      - name: transaction_category
+        description: "Category of transaction (e.g., dining, flight)"
+        # data_type: string
+        tests: []
+
+      - name: miles_amount
+        description: "Number of miles earned or redeemed"
+        # data_type: integer
+        tests: []
+
+      - name: platform
+        description: "Platform used by user (web, ios, android)"
+        # data_type: string
+        tests: []
+
+      - name: utm_source
+        description: "Marketing attribution source"
+        # data_type: string
+        tests: []
+
+      - name: country
+        description: "User's country code"
+        # data_type: string
+        tests: []
+
