@@ -2,7 +2,7 @@
     config(
         materialized='incremental',
         incremental_strategy='delete+insert',
-        unique_key='user_id',
+        unique_key=['user_id', 'activity_date'],       
         partition_by={
             'field': 'activity_date',
             'data_type': 'date'

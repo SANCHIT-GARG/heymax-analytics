@@ -46,16 +46,29 @@ jobs:
           dbt clean
           dbt build --profiles-dir .
           dbt run --profiles-dir . | tee dbt_output.log
+      
+            - name: 📚 Generate dbt Docs
+        run: |
+          cd heymax_analytics
+          dbt docs generate --profiles-dir .
 
-      - name: 🗃️ Commit updated DuckDB file
+      - name: 📦 Copy dbt docs to /docs folder (tracked)
+        run: |
+          rm -rf docs  # Clean out previous docs
+          mkdir -p docs
+          cp -r heymax_analytics/target/* docs/
+
+
+      - name: 🗃️ Commit updated DuckDB and Docs
         if: success()
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git pull origin main
-          git add heymax.duckdb
-          git commit -m "⬆️ Update DuckDB after successful dbt run [skip ci]" || echo "No changes to commit"
+          git add heymax.duckdb docs/
+          git commit -m "⬆️ Update DuckDB and dbt docs [skip ci]" || echo "No changes to commit"
           git push origin main
+
 
       - name: 📨 Email Notification on Success
         if: success()
