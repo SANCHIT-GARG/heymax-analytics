@@ -11,7 +11,7 @@ con = duckdb.connect("heymax.duckdb")
 @st.cache_data
 def load_data():
     # Monthly
-    monthly_df = con.execute("SELECT * FROM growth_metrics ORDER BY activity_month").df()
+    monthly_df = con.execute("SELECT * FROM growth_metrics_monthly ORDER BY activity_month").df()
     monthly_df["activity_month"] = pd.to_datetime(monthly_df["activity_month"])
     monthly_df["period_str"] = monthly_df["activity_month"].dt.strftime("%Y-%m")
     # monthly_df.fillna(0, inplace=True)
@@ -38,7 +38,7 @@ def load_data():
     daily_df["period_str"] = pd.Categorical(daily_df["period_str"], categories=daily_df["period_str"].unique(), ordered=True)
 
     # Retention Triangles
-    retention_month = con.execute("SELECT * FROM retention_triangle ORDER BY cohort_month").df()
+    retention_month = con.execute("SELECT * FROM retention_triangle_monthly ORDER BY cohort_month").df()
     retention_month["cohort_month"] = pd.to_datetime(retention_month["cohort_month"]).dt.strftime("%Y-%m")
     retention_month.fillna(0, inplace=True)
 

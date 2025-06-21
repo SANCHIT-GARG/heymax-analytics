@@ -1,4 +1,10 @@
--- models/marts/growth_metrics.sql
+{{
+    config(
+        materialized='incremental',
+        incremental_strategy='delete+insert',
+        unique_key=""
+        sort )
+}}
 
 WITH metrics AS (
     SELECT

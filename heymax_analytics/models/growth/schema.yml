@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: growth_metrics
+  - name: growth_metrics_monthly
     description: "Aggregated monthly user lifecycle metrics and KPIs"
     columns:
       - name: activity_month

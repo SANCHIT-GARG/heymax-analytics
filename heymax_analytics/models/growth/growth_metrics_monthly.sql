@@ -8,7 +8,7 @@ WITH metrics AS (
         COUNT_IF(user_status = 'resurrected') AS resurrected_users,
         COUNT_IF(user_status = 'churned') AS churned_users,
         COUNT_IF(user_status IN ('new', 'retained', 'resurrected')) AS active_users
-    FROM {{ ref('user_lifecycle') }}
+    FROM {{ ref('user_lifecycle_monthly') }}
     GROUP BY activity_month
 ),
 

@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: fct_events
-    description: "Canonical event-level fact table used for user lifecycle metrics"
+    description: "Event-level fact table used for user lifecycle metrics"
     columns:
       - name: event_ts
         description: "Timestamp of the event"
@@ -38,8 +38,48 @@ models:
       - name: first_seen_month
         description: "First active month"
         tests: [not_null]
+      
+      - name: first_seen_week
+        description: "First active week"
+        tests: [not_null]
 
-  - name: user_lifecycle
+  - name: user_lifecycle_week
+    description: "Assigns lifecycle status to each user for every week"
+    columns:
+      - name: user_id
+        description: "User ID"
+        tests: [not_null]
+
+      - name: activity_week
+        description: "The week of analysis"
+        tests: [not_null]
+
+      - name: user_status
+        description: "Lifecycle classification: new, retained, resurrected, churned"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['new', 'retained', 'resurrected', 'churned']
+
+  - name: user_lifecycle_daily
+    description: "Assigns lifecycle status to each user for every daily"
+    columns:
+      - name: user_id
+        description: "User ID"
+        tests: [not_null]
+
+      - name: activity_date
+        description: "The day of analysis"
+        tests: [not_null]
+
+      - name: user_status
+        description: "Lifecycle classification: new, retained, resurrected, churned"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['new', 'retained', 'resurrected', 'churned']
+
+  - name: user_lifecycle_monthly
     description: "Assigns lifecycle status to each user for every month"
     columns:
       - name: user_id
@@ -56,3 +96,4 @@ models:
           - not_null
           - accepted_values:
               values: ['new', 'retained', 'resurrected', 'churned']
+
