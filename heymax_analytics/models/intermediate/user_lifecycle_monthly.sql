@@ -6,8 +6,7 @@
             'field': 'activity_month',
             'data_type': 'date'
         },
-        sort=['activity_month'],
-        format='parquet'
+        sort=['activity_month']
     )
 }}
 
