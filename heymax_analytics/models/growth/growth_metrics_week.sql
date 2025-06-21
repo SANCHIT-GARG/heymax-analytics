@@ -1,4 +1,8 @@
--- models/marts/growth_metrics.sql
+{{
+    config(
+        materialized='view')
+}}
+
 
 WITH metrics AS (
     SELECT

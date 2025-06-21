@@ -1,6 +1,12 @@
 -- models/intermediate/fct_events.sql
 
-{{ config(materialized='table') }}
+{{
+    config(
+        materialized='table',
+        format='parquet',
+        sort=['event_ts']
+    )
+}}
 
 -- TODO: Add event filters (e.g., only miles_*), derived metrics later
 

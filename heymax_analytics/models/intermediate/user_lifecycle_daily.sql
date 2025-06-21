@@ -1,6 +1,14 @@
 -- models/intermediate/user_lifecycle.sql
 
-{{ config(materialized='table') }}
+{{
+    config(
+        materialized='incremental',
+        incremental_strategy='delete+insert',
+        unique_key='user_id',
+        format='parquet',
+        sort=['activity_date']
+    )
+}}
 
 WITH user_dates AS (
     SELECT DISTINCT user_id, activity_date

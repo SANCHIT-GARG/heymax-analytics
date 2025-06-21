@@ -1,9 +1,6 @@
 {{
     config(
-        materialized='incremental',
-        incremental_strategy='delete+insert',
-        unique_key=""
-        sort )
+        materialized='view')
 }}
 
 WITH metrics AS (

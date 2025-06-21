@@ -1,6 +1,12 @@
 -- models/intermediate/dim_users.sql
 
-{{ config(materialized='table') }}
+{{
+    config(
+        materialized='table',
+        format='parquet',
+        sort=['event_ts']
+    )
+}}
 
 
 SELECT

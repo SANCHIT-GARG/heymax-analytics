@@ -1,6 +1,14 @@
--- models/intermediate/user_lifecycle.sql
+{{
+    config(
+        materialized='incremental',
+        incremental_strategy='delete+insert',
+        unique_key='user_id',
+        partition_by={'field': 'activity_date', 'data_type': 'date'},
+        sort=['activity_date']
+        format='parquet'
+    )
+}}
 
-{{ config(materialized='table') }}
 
 WITH user_weeks AS (
     SELECT DISTINCT user_id, activity_week
