@@ -114,25 +114,26 @@ streamlit run dashboard.py
 
 ---
 
-### 6. Deployment & CI/CD (Optional)
+### 6. Deployment & CI/CD (Optional): Push your code to GitHub
 
-- CI pipeline `.github/workflows/dbt_run.yml` builds the project using dbt and updates the `heymax.duckdb` file
-- You’ll receive an email notification with logs if the run fails or succeeds
+- For CI:
+    - `.github/workflows/dbt_run.yml` builds the project using dbt and updates the `heymax.duckdb` file
+    - You’ll receive an email notification with logs if the run fails or succeeds
+    - The CI is also configured to run on every commit and scheduled to run everyday 8 am. This can be modified based on requirements. 
 - For CD:
-  - Push your repo to GitHub
-  - Connect repo with [Streamlit Cloud](https://streamlit.io/cloud)
-  - Streamlit auto-deploys your app based on latest changes
+    - Connect repo with [Streamlit Cloud](https://streamlit.io/cloud)
+    - Streamlit auto-deploys your app based on latest changes
 
 ---
 
 ## 🔐 OpenAI Secrets Setup
 
-Create a file `.streamlit/secrets.toml`:
-
-```toml
-[openai]
-api_key = "your-openai-key"
-```
+On [Streamlit Cloud](https://streamlit.io/cloud) under your project - 
+    - Click on Manage --> Settings
+    - Add Below Secret
+        ```
+        OPENAI_API_KEY = "your-openai-key"
+        ```
 
 ---
 
@@ -161,6 +162,9 @@ api_key = "your-openai-key"
 
 ## 📬 Contact
 
-Built with ❤️ by **Sanghavi Vemulapati**  
-Questions or feedback? Reach out via [LinkedIn](https://www.linkedin.com/)  
-📧 `your-email@example.com`
+— Built with ❤️ by the first Analytics Engineer at HeyMax
+
+## 📬 Questions?
+Feel free to reach out or submit an issue. Happy building!
+Reach out via [LinkedIn](https://www.linkedin.com/)  
+📧 `sanchit.garg07@gmail.com`
