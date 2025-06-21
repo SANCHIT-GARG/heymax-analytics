@@ -2,9 +2,15 @@
 
 {{
     config(
-        materialized='table',
-        format='parquet',
-        sort=['event_ts']
+        materialized='incremental',
+        incremental_strategy='delete+insert',
+        unique_key=['user_id', 'event_ts'],       
+        partition_by={
+            'field': 'activity_date',
+            'data_type': 'date'
+        },
+        sort=['event_ts'],
+        format='parquet'
     )
 }}
 
