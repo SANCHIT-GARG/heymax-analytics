@@ -43,6 +43,7 @@ jobs:
       - name: 🚀 Run dbt and Capture Output
         run: |
           cd heymax_analytics
+          dbt clean
           dbt build --profiles-dir .
           dbt run --profiles-dir . | tee dbt_output.log
 
