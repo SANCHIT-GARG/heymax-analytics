@@ -6,7 +6,7 @@ models:
     columns:
       - name: activity_month
         description: "Month of activity"
-        tests: [not_null]
+        tests: [not_null, unique]
 
       - name: new_users
         description: "Count of new users in this month"
@@ -34,4 +34,207 @@ models:
 
       - name: retention_rate
         description: "retained / active users from previous month"
+        tests: []
+
+  - name: growth_metrics_week
+    description: "Aggregated weekly user lifecycle metrics and KPIs"
+    columns:
+      - name: activity_week
+        description: "Week of activity"
+        tests: [not_null, unique]
+
+      - name: new_users
+        description: "Count of new users in this week"
+        tests: []
+
+      - name: retained_users
+        description: "Count of users retained from previous week"
+        tests: []
+
+      - name: resurrected_users
+        description: "Users returning after being inactive last week"
+        tests: []
+
+      - name: churned_users
+        description: "Users active in last week but not this week"
+        tests: []
+
+      - name: active_users
+        description: "Sum of new, retained, resurrected users"
+        tests: []
+
+      - name: quick_ratio
+        description: "(new + resurrected) / churned"
+        tests: []
+
+      - name: retention_rate
+        description: "retained / active users from previous week"
+        tests: []
+
+  - name: growth_metrics_daily
+    description: "Aggregated daily user lifecycle metrics and KPIs"
+    columns:
+      - name: activity_date
+        description: "Date of activity"
+        tests: [not_null, unique]
+
+      - name: new_users
+        description: "Count of new users on this day"
+        tests: []
+
+      - name: retained_users
+        description: "Count of users retained from previous day"
+        tests: []
+
+      - name: resurrected_users
+        description: "Users returning after being inactive the previous day"
+        tests: []
+
+      - name: churned_users
+        description: "Users active on the previous day but not today"
+        tests: []
+
+      - name: active_users
+        description: "Sum of new, retained, resurrected users"
+        tests: []
+
+      - name: quick_ratio
+        description: "(new + resurrected) / churned"
+        tests: []
+
+      - name: retention_rate
+        description: "retained / active users from previous day"
+        tests: []
+
+  - name: retention_triangle_monthly
+    description: "Monthly retention triangle showing cohort retention rates"
+    columns:
+      - name: cohort_month
+        description: "Month when the cohort was first active"
+        tests: [not_null, unique]
+
+      - name: m0
+        description: "Retention rate for the cohort in the first month"
+        tests: []
+
+      - name: m1
+        description: "Retention rate for the cohort in the second month"
+        tests: []
+
+      - name: m2
+        description: "Retention rate for the cohort in the third month"
+        tests: []
+
+      - name: m3
+        description: "Retention rate for the cohort in the fourth month"
+        tests: []
+
+      - name: m4
+        description: "Retention rate for the cohort in the fifth month"
+        tests: []
+
+      - name: m5
+        description: "Retention rate for the cohort in the sixth month"
+        tests: []
+
+  - name: retention_triangle_week
+    description: "Weekly retention triangle showing cohort retention rates"
+    columns:
+      - name: cohort_week
+        description: "Week when the cohort was first active"
+        tests: [not_null, unique]
+
+      - name: w0
+        description: "Retention rate for the cohort in the first week"
+        tests: []
+
+      - name: w1
+        description: "Retention rate for the cohort in the second week"
+        tests: []
+
+      - name: w2
+        description: "Retention rate for the cohort in the third week"
+        tests: []
+
+      - name: w3
+        description: "Retention rate for the cohort in the fourth week"
+        tests: []
+
+      - name: w4
+        description: "Retention rate for the cohort in the fifth week"
+        tests: []
+
+      - name: w5
+        description: "Retention rate for the cohort in the sixth week"
+        tests: []
+
+      - name: w6
+        description: "Retention rate for the cohort in the seventh week"
+        tests: []
+
+      - name: w7
+        description: "Retention rate for the cohort in the eighth week"
+        tests: []
+
+      - name: w8
+        description: "Retention rate for the cohort in the ninth week"
+        tests: []
+
+      - name: w9
+        description: "Retention rate for the cohort in the tenth week"
+        tests: []
+
+      - name: w10
+        description: "Retention rate for the cohort in the eleventh week"
+        tests: []
+
+      - name: w11
+        description: "Retention rate for the cohort in the twelfth week"
+        tests: []
+
+  - name: retention_triangle_daily
+    description: "Daily retention triangle showing cohort retention rates"
+    columns:
+      - name: cohort_date
+        description: "Date when the cohort was first active"
+        tests: [not_null, unique]
+
+      - name: d0
+        description: "Retention rate for the cohort on the first day"
+        tests: []
+
+      - name: d1
+        description: "Retention rate for the cohort on the second day"
+        tests: []
+
+      - name: d2
+        description: "Retention rate for the cohort on the third day"
+        tests: []
+
+      - name: d3
+        description: "Retention rate for the cohort on the fourth day"
+        tests: []
+
+      - name: d4
+        description: "Retention rate for the cohort on the fifth day"
+        tests: []
+
+      - name: d5
+        description: "Retention rate for the cohort on the sixth day"
+        tests: []
+
+      - name: d6
+        description: "Retention rate for the cohort on the seventh day"
+        tests: []
+
+      - name: d7
+        description: "Retention rate for the cohort on the eighth day"
+        tests: []
+
+      - name: d8
+        description: "Retention rate for the cohort on the ninth day"
+        tests: []
+
+      - name: d9
+        description: "Retention rate for the cohort on the tenth day"
         tests: []
