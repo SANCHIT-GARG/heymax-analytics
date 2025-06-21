@@ -1,4 +1,4 @@
-{
+{{
     config(
         materialized='incremental',
         incremental_strategy='delete+insert',
@@ -7,7 +7,7 @@
             'field': 'activity_date',
             'data_type': 'date'
         },
-        sort=['activity_date']
+        sort=['activity_date'],
         format='parquet'
     )
 }}

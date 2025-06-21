@@ -7,7 +7,7 @@
             'field': 'activity_week',
             'data_type': 'date'
         },
-        sort=['activity_week']
+        sort=['activity_week'],
         format='parquet'
     )
 }}
