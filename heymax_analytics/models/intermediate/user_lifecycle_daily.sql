@@ -1,14 +1,17 @@
--- models/intermediate/user_lifecycle.sql
-
-{{
+{
     config(
         materialized='incremental',
         incremental_strategy='delete+insert',
         unique_key='user_id',
-        format='parquet',
+        partition_by={
+            'field': 'activity_date',
+            'data_type': 'date'
+        },
         sort=['activity_date']
+        format='parquet'
     )
 }}
+
 
 WITH user_dates AS (
     SELECT DISTINCT user_id, activity_date

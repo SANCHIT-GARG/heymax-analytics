@@ -1,6 +1,17 @@
--- models/intermediate/user_lifecycle.sql
+{
+    config(
+        materialized='incremental',
+        incremental_strategy='delete+insert',
+        unique_key='user_id',
+        partition_by={
+            'field': 'activity_month',
+            'data_type': 'date'
+        },
+        sort=['activity_month']
+        format='parquet'
+    )
+}}
 
-{{ config(materialized='table') }}
 
 WITH user_months AS (
     SELECT DISTINCT user_id, activity_month
