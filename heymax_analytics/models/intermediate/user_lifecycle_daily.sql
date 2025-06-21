@@ -1,7 +1,6 @@
 {{
     config(
-        materialized='incremental',
-        incremental_strategy='delete+insert',
+        materialized='table',
         unique_key='user_id',
         partition_by={
             'field': 'activity_date',
