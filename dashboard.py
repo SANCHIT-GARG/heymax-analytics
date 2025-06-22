@@ -140,7 +140,7 @@ if st.sidebar.button("🔍 Generate Insight") and user_prompt:
 
     # 🔁 Call the OpenAI model
     response = client.chat.completions.create(
-        model="gpt-4o",  # or "gpt-4o-mini" if using Hugging Face proxy
+        model="gpt-4o", 
         messages=[{"role": "user", "content": context}]
     )
 

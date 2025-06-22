@@ -150,15 +150,15 @@ On [Streamlit Cloud](https://streamlit.io/cloud) under your project -
 
 ## 🧮 dbt Modelling
 
-| Model Name                  | Materialization   | Strategy                  | Format    | Notes |
-|----------------------------|-------------------|---------------------------|-----------|-------|
-| `stg_raw_events`           | `table`           | Full refresh              | Parquet   | Raw Data |
-| `stg_events`               | `table`           | Full refresh              | Parquet   | Raw Formated and Cleaned Data |
-| `dim_users`                | `table`           | `delete+insert`           | Parquet   | Stable dim table |
-| `fct_events`               | `incremental`     | `delete+insert`           | Parquet   | Append-safe fact model |
-| `user_lifecycle_*`         | `incremental`     | `delete+insert`           | Parquet   | Use one per granularity (daily, weekly, monthly) |
-| `growth_metrics*`          | `View`            | -                         | -         | Metric aggregations |
-| `retention_triangle*`      | `View`            | -                         | -         | Metric aggregations |
+| Model Name                  | Materialization   | Strategy                  | Format   |
+|----------------------------|-------------------|---------------------------|-----------|
+| `stg_raw_events`           | `table`           | Full refresh              | Parquet   |
+| `stg_events`               | `table`           | Full refresh              | Parquet   |
+| `dim_users`                | `table`           | `delete+insert`           | Parquet   | 
+| `fct_events`               | `incremental`     | `delete+insert`           | Parquet   |
+| `user_lifecycle_*`         | `incremental`     | `delete+insert`           | Parquet   |
+| `growth_metrics*`          | `View`            | -                         | -         |
+| `retention_triangle*`      | `View`            | -                         | -         |
 
 
 
@@ -168,5 +168,5 @@ On [Streamlit Cloud](https://streamlit.io/cloud) under your project -
 
 ## 📬 Questions?
 Feel free to reach out or submit an issue. Happy building!
-Reach out via [LinkedIn](https://www.linkedin.com/)  
+Reach out via [LinkedIn](https://www.linkedin.com/in/nsanchitgarg/)  
 📧 `sanchit.garg07@gmail.com`
