@@ -80,7 +80,7 @@ project/
 
 ```bash
 git clone https://github.com/SANCHIT-GARG/heymax-analytics.git
-cd heymax-analytics
+cd <path to cloned project>
 ```
 
 ### 2. Create a Virtual Environment (Python 3.11)
@@ -99,6 +99,7 @@ pip install -r requirements.txt
 ### 4. Build dbt Models (Run docs generate and docs build command for auto-generated documentation for your dbt project)
 
 ```bash
+cd heymax_analytics/
 dbt build
 dbt docs generate
 dbt docs serve
@@ -109,6 +110,7 @@ dbt docs serve
 Generate your own token to use LLM features: [OpenAI API](https://platform.openai.com/account/api-keys)
 
 ```bash
+cd ../
 streamlit run dashboard.py
 ```
 
@@ -152,11 +154,11 @@ On [Streamlit Cloud](https://streamlit.io/cloud) under your project -
 |----------------------------|-------------------|---------------------------|-----------|-------|
 | `stg_raw_events`           | `table`           | Full refresh              | Parquet   | Raw Data |
 | `stg_events`               | `table`           | Full refresh              | Parquet   | Raw Formated and Cleaned Data |
-| `dim_users`                | `table`           | Full refresh              | Parquet   | Stable dim table |
+| `dim_users`                | `table`           | `delete+insert`           | Parquet   | Stable dim table |
 | `fct_events`               | `incremental`     | `delete+insert`           | Parquet   | Append-safe fact model |
 | `user_lifecycle_*`         | `incremental`     | `delete+insert`           | Parquet   | Use one per granularity (daily, weekly, monthly) |
-| `growth_metrics*`          | `View`            | -                         | Parquet   | Metric aggregations |
-| `retention_triangle*`      | `View`            | -                         | Parquet   | Metric aggregations |
+| `growth_metrics*`          | `View`            | -                         | -         | Metric aggregations |
+| `retention_triangle*`      | `View`            | -                         | -         | Metric aggregations |
 
 
 
