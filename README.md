@@ -166,7 +166,6 @@ On [Streamlit Cloud](https://streamlit.io/cloud) under your project -
 
 — Built with ❤️ by the first Analytics Engineer at HeyMax
 
-## 📬 Questions?
 Feel free to reach out or submit an issue. Happy building!
 Reach out via [LinkedIn](https://www.linkedin.com/in/nsanchitgarg/)  
 📧 `sanchit.garg07@gmail.com`

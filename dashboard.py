@@ -106,13 +106,20 @@ else:
     mask = (df[true_time_col].dt.date >= start_date) & (df[true_time_col].dt.date <= end_date)
     filtered_df = df[mask]
 
-
+st.sidebar.markdown("<br><br>", unsafe_allow_html=True)
 # --- Sidebar LLM Chat ---
-st.sidebar.markdown("💡 ** Generate Insights with AI **")
-user_prompt = st.sidebar.text_area("Ask a question about the filtered data:" , 
-                                   placeholder="e.g. What is the best month for business?")
+# st.sidebar.markdown("💡 ** Generate Insights with AI **")
+# user_prompt = st.sidebar.text_input("Ask a question about the filtered data:" , 
+#                                    placeholder="e.g. What is the best month for business?")
 
-if st.sidebar.button("🔍 Generate Insight") and user_prompt:
+# if st.sidebar.button("🔍 Generate Insight") and user_prompt:
+with st.sidebar.form(key="llm_query_form"):
+    st.markdown("💡 ** Generate Insights with AI **")
+    user_prompt = st.text_area("Ask a question about the filtered data:", 
+                               placeholder="e.g. What is the best month for business?")
+    submitted = st.form_submit_button("🔍 Generate Insight")
+
+if submitted and user_prompt:
     # Sample data snapshot for context (limit for token usage)
     # context_df = filtered_df.to_markdown(index=False)
     # retention_preview = retention_df.to_markdown()
