@@ -3,7 +3,3 @@ target/
 dbt_packages/
 logs/
 .user.yml
-macros/
-seeds/
-snapshots/
-tests/
