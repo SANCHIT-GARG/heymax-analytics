@@ -129,11 +129,21 @@ streamlit run dashboard.py
 
 - For CI:
     - `.github/workflows/dbt_run.yml` builds the project using dbt and updates the `heymax.duckdb` file
+    - Configure your GitHub repository secrets to securely store your email credentials for CI email notifications:
+        - Go to your repository on GitHub → Settings → Secrets and variables → Actions → New repository secret
+        - Add the following secrets:
+            - `EMAIL_USER` — your email address (used as the sender)
+            - `EMAIL_PASSWORD` — your email account password or app-specific password
+        - In your CI workflow (`.github/workflows/dbt_run.yml`), reference these secrets as environment variables to enable email notifications
     - You’ll receive an email notification with logs if the run fails or succeeds
     - The CI is also configured to run on every commit and scheduled to run everyday 8 am. This can be modified based on requirements. 
 - For CD:
-    - Connect repo with [Streamlit Cloud](https://streamlit.io/cloud)
-    - Streamlit auto-deploys your app based on latest changes
+    - Connect your GitHub repository with [Streamlit Cloud](https://streamlit.io/cloud):
+        - Sign in to Streamlit Cloud and click **"New app"**.
+        - Select your GitHub repo and branch (e.g., `main`).
+        - Set the app entry point to `heymax_dashboard/dashboard.py`.
+    - Streamlit Cloud will automatically build and deploy your app whenever you push changes to the connected branch.
+    - You can monitor deployment logs and app status directly from the Streamlit Cloud dashboard.
 
 ---
 

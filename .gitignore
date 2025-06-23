@@ -6,7 +6,6 @@ __pycache__/
 # dbt
 dbt_modules/
 dbt_packages/
-!heymax.duckdb
 dbt_logs/
 
 # streamlit
