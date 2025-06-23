@@ -59,7 +59,8 @@ def load_data():
 # Load Data
 monthly_df, weekly_df, daily_df, retention_month, retention_week , retention_day = load_data()
 
-# st.set_page_config(page_title="Growth Metrics Dashboard", layout="wide")
+
+# --- Page Title ---
 st.title("📊 Growth Metrics Dashboard")
 # --- UI Toggle ---
 view_option = st.radio("Select Time Granularity:", ["Monthly", "Weekly","Daily"])
