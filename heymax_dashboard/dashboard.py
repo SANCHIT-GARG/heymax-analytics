@@ -4,9 +4,14 @@ import pandas as pd
 import re
 import plotly.graph_objects as go
 import openai
+import os
 
 # --- Connect to DuckDB ---
-con = duckdb.connect("../heymax_database/heymax.duckdb")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # gets full path to current script
+DB_PATH = os.path.join(BASE_DIR, "..", "heymax_database", "heymax.duckdb")
+con = duckdb.connect(DB_PATH)
+
+# con = duckdb.connect("../heymax_database/heymax.duckdb")
 
 def load_data():
     # Monthly
