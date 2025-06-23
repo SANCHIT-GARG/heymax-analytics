@@ -112,12 +112,6 @@ else:
     filtered_df = df[mask]
 
 st.sidebar.markdown("<br><br>", unsafe_allow_html=True)
-# --- Sidebar LLM Chat ---
-# st.sidebar.markdown("💡 ** Generate Insights with AI **")
-# user_prompt = st.sidebar.text_input("Ask a question about the filtered data:" , 
-#                                    placeholder="e.g. What is the best month for business?")
-
-# if st.sidebar.button("🔍 Generate Insight") and user_prompt:
 with st.sidebar.form(key="llm_query_form"):
     st.markdown("💡 ** Generate Insights with AI **")
     user_prompt = st.text_area("Ask a question about the filtered data:", 
@@ -125,9 +119,6 @@ with st.sidebar.form(key="llm_query_form"):
     submitted = st.form_submit_button("🔍 Generate Insight")
 
 if submitted and user_prompt:
-    # Sample data snapshot for context (limit for token usage)
-    # context_df = filtered_df.to_markdown(index=False)
-    # retention_preview = retention_df.to_markdown()
 
     context = f"""
     You are a helpful data analyst assistant. Based on the user's filtered data below, answer their question.
@@ -143,12 +134,8 @@ if submitted and user_prompt:
     {user_prompt}
     """
     
-    # Use the code below to use Streamlit secrets in production.
+    # Use the code below to use Streamlit secrets in production.For local setup add secrets.toml file in the root directory.
     client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"]) 
-
-    # Alternatively, you can set the API key directly in your environment or use a config file. (Local Setup)
-    # OPENAI_API_KEY
-    # client = openai.OpenAI(api_key=OPENAI_API_KEY)
 
     # 🔁 Call the OpenAI model
     response = client.chat.completions.create(
