@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import openai
 
 # --- Connect to DuckDB ---
-con = duckdb.connect("heymax.duckdb")
+con = duckdb.connect("../heymax_database/heymax.duckdb")
 
 def load_data():
     # Monthly

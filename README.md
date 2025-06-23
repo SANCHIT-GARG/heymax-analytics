@@ -37,7 +37,17 @@ This project sets up an end-to-end open-source data and analytics pipeline for H
 ```
 project/
 │
-├── heymax_analytics/
+├── .github/
+│   ├──workflows/
+│   │   ├──dbt_run.yml
+│
+├── heymax_dashboard/
+│   ├── dashboard.py
+│
+├── heymax_database/
+│   ├── heymax.duckdb
+│
+├── heymax_dbt/
 │   ├── models/
 │   │   ├── staging/
 │   │   │   ├── stg_raw_events.sql
@@ -63,12 +73,11 @@ project/
 │   ├── dbt_project.yml
 │   ├── profiles.yml
 │
-├── dashboard.py
-├── .github/
-│   ├──workflows/
-│   │   ├──dbt_run.yml
-├── heymax.duckdb
+├── heymax_documentation/
+│   ├── HeyMax_Analytics_Documentation.pdf
+│
 ├── requirements.txt
+│
 └── README.md
 ```
 
@@ -99,7 +108,7 @@ pip install -r requirements.txt
 ### 4. Build dbt Models (Run docs generate and docs build command for auto-generated documentation for your dbt project)
 
 ```bash
-cd heymax_analytics/
+cd heymax_dbt/
 dbt build
 dbt docs generate
 dbt docs serve
@@ -110,7 +119,7 @@ dbt docs serve
 Generate your own token to use LLM features: [OpenAI API](https://platform.openai.com/account/api-keys)
 
 ```bash
-cd ../
+cd ../heymax_dashboard/
 streamlit run dashboard.py
 ```
 

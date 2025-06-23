@@ -9,5 +9,6 @@ dbt_packages/
 !heymax.duckdb
 dbt_logs/
 
+
 # macOS
 .DS_Store

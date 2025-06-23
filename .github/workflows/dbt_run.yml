@@ -30,6 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Placeholders for linting steps if needed
       # - name: 🔍 Lint Python code
       #   run: |
       #     pip install flake8
@@ -38,11 +39,11 @@ jobs:
       # - name: 🔍 Lint SQL files
       #   run: |
       #     pip install sqlfluff
-      #     sqlfluff lint heymax_analytics/models --dialect duckdb
+      #     sqlfluff lint dbt/models --dialect duckdb
 
       - name: 🚀 Run dbt and Capture Output
         run: |
-          cd heymax_analytics
+          cd heymax_dbt
           dbt clean
           dbt build --profiles-dir .
           dbt run --profiles-dir . | tee dbt_output.log
@@ -53,7 +54,7 @@ jobs:
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
           git pull origin main
-          git add heymax.duckdb
+          git add heymax_database/heymax.duckdb
           git commit -m "⬆️ Update DuckDB after successful dbt run [skip ci]" || echo "No changes to commit"
           git push origin main
 
@@ -79,7 +80,7 @@ jobs:
             HeyMax CI/CD Bot
           to: sanchit.garg07@gmail.com
           from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
-          attachments: ./heymax_analytics/dbt_output.log
+          attachments: ./heymax_dbt/dbt_output.log
 
       - name: 📨 Email Notification on Failure
         if: failure()
@@ -103,4 +104,4 @@ jobs:
             HeyMax CI/CD Bot
           to: sanchit.garg07@gmail.com
           from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
-          attachments: ./heymax_analytics/dbt_output.log
+          attachments: ./heymax_dbt/dbt_output.log
