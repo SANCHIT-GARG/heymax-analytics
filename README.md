@@ -2,6 +2,8 @@
 
 This project sets up an end-to-end open-source data and analytics pipeline for HeyMax with an interactive analytics dashboard built using **Streamlit**, **DuckDB**, and **dbt** to analyze user lifecycle metrics over time. It supports both **monthly**, **weekly**, and **daily** views with charts, retention triangle tables, KPIs, filters, and LLM-based insights.
 
+Access the live dashboard here: https://heymax-analytics-dev.streamlit.app/
+
 ---
 
 ## 🚀 Features
