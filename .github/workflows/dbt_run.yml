@@ -1,15 +1,17 @@
 name: Run dbt and Notify via Email
 
 on:
-  workflow_dispatch:      # 👈 adds manual trigger from GitHub UI
+  workflow_dispatch:
   push:
     branches: [ main ]
-    paths:
-      - 'data/**.csv'
-      - 'models/**/*'
-      - 'dashboard.py'
   schedule:
-    - cron: '0 0 * * *'   # every day at midnight UTC
+    # Singapore is UTC+8. GitHub Actions cron uses UTC timezone.
+      # To run every day at 8am Singapore time, use '0 0 * * *' (runs at 0:00 UTC, which is 8:00 SGT).
+      - cron: '0 0 * * *'
+
+permissions:
+  contents: write
+
 jobs:
   run-dbt:
     runs-on: ubuntu-latest
@@ -21,13 +23,14 @@ jobs:
       - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: 📦 Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Placeholders for linting steps if needed
       # - name: 🔍 Lint Python code
       #   run: |
       #     pip install flake8
@@ -36,13 +39,24 @@ jobs:
       # - name: 🔍 Lint SQL files
       #   run: |
       #     pip install sqlfluff
-      #     sqlfluff lint heymax_analytics/models --dialect duckdb
+      #     sqlfluff lint dbt/models --dialect duckdb
 
       - name: 🚀 Run dbt and Capture Output
         run: |
-          cd heymax_analytics
+          cd heymax_dbt
+          dbt clean
           dbt build --profiles-dir .
           dbt run --profiles-dir . | tee dbt_output.log
+
+      - name: 🗃️ Commit updated DuckDB file
+        if: success()
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git pull origin main
+          git add heymax_database/heymax.duckdb
+          git commit -m "⬆️ Update DuckDB after successful dbt run [skip ci]" || echo "No changes to commit"
+          git push origin main
 
       - name: 📨 Email Notification on Success
         if: success()
@@ -60,11 +74,13 @@ jobs:
 
             Please find the attached log file for more details.
 
+            Dashboard: https://heymax-analytics-dev.streamlit.app/
+
             Regards,
             HeyMax CI/CD Bot
           to: sanchit.garg07@gmail.com
           from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
-          attachments: ./heymax_analytics/dbt_output.log
+          attachments: ./heymax_dbt/dbt_output.log
 
       - name: 📨 Email Notification on Failure
         if: failure()
@@ -82,8 +98,10 @@ jobs:
 
             Please find the attached dbt logs to investigate the issue.
 
+            Dashboard: https://heymax-analytics-dev.streamlit.app/
+
             Regards,
             HeyMax CI/CD Bot
           to: sanchit.garg07@gmail.com
           from: HeyMax CI <${{ secrets.EMAIL_USERNAME }}>
-          attachments: ./heymax_analytics/dbt_output.log
+          attachments: ./heymax_dbt/dbt_output.log

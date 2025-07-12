@@ -1,0 +1,7 @@
+heymax_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../heymax_database/heymax.duckdb
+      threads: 1

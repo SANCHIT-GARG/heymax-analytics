@@ -1,174 +1,192 @@
-# HeyMax Analytics Stack 🚀
+# 📊 Growth Metrics Dashboard
 
-This project sets up an end-to-end open-source data and analytics pipeline for HeyMax — built using:
+This project sets up an end-to-end open-source data and analytics pipeline for HeyMax with an interactive analytics dashboard built using **Streamlit**, **DuckDB**, and **dbt** to analyze user lifecycle metrics over time. It supports both **monthly**, **weekly**, and **daily** views with charts, retention triangle tables, KPIs, filters, and LLM-based insights.
 
-- 🐣 DuckDB as the lightweight analytical warehouse
-- 🛠 dbt for modeling (with staging, core, and growth layers)
-- 📊 Streamlit for interactive growth dashboards
-- ✅ All in a single GitHub repo — easily portable and reproducible
+Access the live dashboard here: https://heymax-analytics-dev.streamlit.app/
 
 ---
 
-## 📦 Project Structure
+## 🚀 Features
+
+- 📅 Toggle between **Monthly**, **Weekly**, and **Daily** metrics  
+- 📈 Charts for:
+  - New, Resurrected, Retained, Churned, and Active Users
+  - Stacked bar + line charts (Quick Ratio, Retention Rate)
+- 📐 Retention Triangle (monthly, weekly, and daily cohorts)
+- 🎯 KPI cards for the latest period
+- 🎛️ Filters: date range  
+- 💬 Ask your data (powered by OpenAI’s GPT-4)
+- ⬇️ Download filtered report as CSV
+
+---
+
+## 🧱 Tech Stack
+
+| Layer        | Tool              |
+|--------------|-------------------|
+| Backend DB   | DuckDB            |
+| Data Modeling| dbt               |
+| Frontend     | Streamlit         |
+| Visualization| Plotly            |
+| LLM Chat     | OpenAI GPT (via API key) |
+| Deployment   | GitHub            |
+
+
+---
+
+## 📁 Project Structure
 
 ```
-heymax_project/
-├── dashboard.py              # Streamlit app
-├── heymax.duckdb             # DuckDB file created by dbt
-├── requirements.txt          # All dependencies with versions
-├── README.md                 # You're reading it
+project/
 │
-├── heymax_analytics/         # dbt project folder
-│   ├── dbt_project.yml
+├── .github/
+│   ├──workflows/
+│   │   ├──dbt_run.yml
+│
+├── heymax_dashboard/
+│   ├── dashboard.py
+│
+├── heymax_database/
+│   ├── heymax.duckdb
+│
+├── heymax_dbt/
 │   ├── models/
-│   │   ├── staging/          # stg_events.sql (materialized as table to inspect raw data)
-│   │   ├── core/             # dim_users, fct_events (materialized as parquet tables)
-│   │   └── growth/           # active users, growth accounting, cohort
-│   └── models/schema.yml     # model docs + tests
+│   │   ├── staging/
+│   │   │   ├── stg_raw_events.sql
+│   │   │   ├── stg_events.sql
+│   │   │   └── schema.yml
+│   │   ├── intermediate/
+│   │   │   ├── dim_users.sql
+│   │   │   ├── fct_events.sql
+│   │   │   ├── user_lifecycle_daily.sql
+│   │   │   ├── user_lifecycle_weekly.sql
+│   │   │   ├── user_lifecycle_monthly.sql
+│   │   │   └── schema.yml
+│   │   ├── growth/
+│   │   │   ├── growth_metrics_monthly.sql
+│   │   │   ├── growth_metrics_week.sql
+│   │   │   ├── growth_metrics_daily.sql
+│   │   │   ├── retention_triangle_monthly.sql
+│   │   │   ├── retention_triangle_week.sql
+│   │   │   ├── retention_triangle_daily.sql
+│   │   │   └── schema.yml
+│   ├── data/
+│   │   ├── event_stream.csv
+│   ├── dbt_project.yml
+│   ├── profiles.yml
 │
-└── .gitignore
+├── heymax_documentation/
+│   ├── HeyMax_Analytics_Documentation.pdf
+│
+├── requirements.txt
+│
+└── README.md
 ```
 
 ---
 
 ## ⚙️ Setup Instructions
 
-### 1. Clone and create virtual environment
+### 1. Clone the Repository
+
 ```bash
-git clone https://github.com/yourusername/heymax_project.git
-cd heymax_project
-python3 -m venv venv
-source venv/bin/activate
+git clone https://github.com/SANCHIT-GARG/heymax-analytics.git
+cd <path to cloned project>
 ```
 
-### 2. Install Python dependencies
+### 2. Create a Virtual Environment (Python 3.11)
+
+```bash
+python3.11 -m venv heymax_env
+source heymax_env/bin/activate
+```
+
+### 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run dbt models
+### 4. Build dbt Models (Run docs generate and docs build command for auto-generated documentation for your dbt project)
+
 ```bash
-cd heymax_analytics
-dbt run
-dbt test
+cd heymax_dbt/
+dbt build
+dbt docs generate
+dbt docs serve
 ```
 
-### 4. Launch the dashboard
+### 5. Launch Streamlit Dashboard
+
+Generate your own token to use LLM features: [OpenAI API](https://platform.openai.com/account/api-keys)
+
 ```bash
-cd ..
+cd ../heymax_dashboard/
 streamlit run dashboard.py
 ```
 
 ---
 
-## 🧪 Features & Metrics
+### 6. Deployment & CI/CD (Optional): Push your code to GitHub
 
-- **Daily / Weekly / Monthly Active Users**
-- **Growth Accounting**
-  - New Users
-  - Retained
-  - Resurrected
-  - Churned
-  - Quick Ratio (based on DAU; gaps indicate missing data)
-- **Retention Cohort** heatmap with triangle format
-- **Streamlit interactivity**
-  - Date range filters
-  - Metric selector (DAU/WAU/MAU-based growth accounting)
-  - Country filter (added)
-  - Line / Area chart toggles
-
----
-
-## 📈 Performance Optimizations (DuckDB)
-
-DuckDB handles most indexing internally, but you can improve performance by:
-
-- ✅ **Materializing dbt models to Parquet** (e.g. fct_events, dim_users) for better read efficiency
-- ✅ **Partitioning by `event_date` or `country`** if loading from files
-- ✅ **Filtering with indexed columns** (e.g. user_id, event_date)
-- ✅ **Using vectorized execution + stats pushdown** (automatic)
-
-> Note: Raw staging table (`stg_events`) is intentionally materialized as table for inspection.
-
-### 🔁 Model Materialization Summary
-| Model         | Materialization | Format  | Notes                            |
-|---------------|------------------|---------|----------------------------------|
-| stg_events    | table            | default | Retained for raw data inspection |
-| dim_users     | table            | parquet | Efficient columnar access        |
-| fct_events    | table            | parquet | Optimized for analytical queries |
-
-### 📦 Why Parquet?
-Parquet is a columnar storage format that excels for analytics:
-- 🚀 **Faster Reads** — only loads queried columns (vs. row-wise storage)
-- 💾 **Highly Compressed** — reduces storage footprint
-- 🔍 **Vectorized Execution** — better scan + filter performance in DuckDB
-- 🔄 **Interoperability** — widely supported by Spark, Pandas, BigQuery, etc.
+- For CI:
+    - `.github/workflows/dbt_run.yml` builds the project using dbt and updates the `heymax.duckdb` file
+    - Configure your GitHub repository secrets to securely store your email credentials for CI email notifications:
+        - Go to your repository on GitHub → Settings → Secrets and variables → Actions → New repository secret
+        - Add the following secrets:
+            - `EMAIL_USER` — your email address (used as the sender)
+            - `EMAIL_PASSWORD` — your email account password or app-specific password
+        - In your CI workflow (`.github/workflows/dbt_run.yml`), reference these secrets as environment variables to enable email notifications
+    - You’ll receive an email notification with logs if the run fails or succeeds
+    - The CI is also configured to run on every commit and scheduled to run everyday 8 am. This can be modified based on requirements. 
+- For CD:
+    - Connect your GitHub repository with [Streamlit Cloud](https://streamlit.io/cloud):
+        - Sign in to Streamlit Cloud and click **"New app"**.
+        - Select your GitHub repo and branch (e.g., `main`).
+        - Set the app entry point to `heymax_dashboard/dashboard.py`.
+    - Streamlit Cloud will automatically build and deploy your app whenever you push changes to the connected branch.
+    - You can monitor deployment logs and app status directly from the Streamlit Cloud dashboard.
 
 ---
 
-## 🌐 Deployment (optional)
+## 🔐 OpenAI Secrets Setup
 
-To deploy on [Streamlit Cloud](https://streamlit.io/cloud):
-1. Push this repo to GitHub
-2. Go to https://streamlit.io/cloud and link your GitHub repo
-3. Set the entrypoint as `dashboard.py`
-4. Done! 🎉
-
----
-
-## 🔧 Requirements
-
-### Python Version
-- Python ≥ 3.9 (recommended)
-
-### requirements.txt
-```txt
-streamlit==1.33.0
-pandas==2.2.2
-duckdb==0.10.1
-altair==5.3.0
-dbt-duckdb==1.9.0
-watchdog==4.0.0
-```
+On [Streamlit Cloud](https://streamlit.io/cloud) under your project - 
+    - Click on Manage --> Settings
+    - Add Below Secret
+        ```
+        OPENAI_API_KEY = "your-openai-key"
+        ```
 
 ---
 
-## 📈 Next Steps for Scaling
+## ✨ Example Questions to Ask the LLM
 
-This stack is modular and built to grow. Here's how to take it to the next level:
-
-| Upgrade Area          | Suggested Tools            | Benefit |
-|-----------------------|-----------------------------|---------|
-| Database              | BigQuery, Snowflake         | Handles large-scale data and concurrent users |
-| Data Orchestration    | Airflow, dbt Cloud, Dagster | Automate dbt runs, alerts, and dependencies |
-| Dashboard             | Looker, Superset, Metabase  | Production-grade dashboards with RBAC and performance |
-| Streaming Ingestion   | Pub/Sub, Kafka, Fivetran    | Enable near real-time metrics pipelines |
-| CI/CD                 | GitHub Actions, dbt tests   | Auto-validate models and deploy updates |
-
-> ✅ If you're using BigQuery as your data warehouse, we recommend migrating your dashboards to **Looker** for long-term scalability, better data governance, and secure stakeholder access.
+- “What month had the highest churn rate?”
+- “Compare new users vs resurrected users in April.”
+- “Why did quick ratio drop in May?”
+- “How many users were retained after 3 months from the March cohort?”
 
 ---
 
-## ⚙️ Automation & Streaming Support
+## 🧮 dbt Modelling
 
-### CI/CD with GitHub Actions
-- Set up workflows to:
-  - Run `dbt build` and tests on push
-  - Auto-deploy to Streamlit Cloud (or other cloud runners)
-  - Send Slack/email alerts on failure
+| Model Name                  | Materialization   | Strategy                  | Format   |
+|----------------------------|-------------------|---------------------------|-----------|
+| `stg_raw_events`           | `table`           | Full refresh              | Parquet   |
+| `stg_events`               | `table`           | Full refresh              | Parquet   |
+| `dim_users`                | `table`           | `delete+insert`           | Parquet   | 
+| `fct_events`               | `incremental`     | `delete+insert`           | Parquet   |
+| `user_lifecycle_*`         | `incremental`     | `delete+insert`           | Parquet   |
+| `growth_metrics*`          | `View`            | -                         | -         |
+| `retention_triangle*`      | `View`            | -                         | -         |
 
-### Kafka for Real-time Ingestion (Simulated)
-- Mock streaming data via a Kafka producer
-- Write a listener script that:
-  - Listens for new messages
-  - Writes new rows to a CSV/parquet file in `data/`
-  - Triggers a `dbt run` + auto-refresh Streamlit dashboard
 
-> Add a `streaming/` folder for simulated producers and watchers
 
----
-
-## 📬 Questions?
-Feel free to reach out or submit an issue. Happy building!
+## 📬 Contact
 
 — Built with ❤️ by the first Analytics Engineer at HeyMax
+
+Feel free to reach out or submit an issue. Happy building!
+Reach out via [LinkedIn](https://www.linkedin.com/in/nsanchitgarg/)  
+📧 `sanchit.garg07@gmail.com`

@@ -1,7 +1,0 @@
-heymax_analytics:
-  target: dev
-  outputs:
-    dev:
-      type: duckdb
-      path: ../heymax.duckdb
-      threads: 1
