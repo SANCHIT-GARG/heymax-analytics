@@ -6,6 +6,8 @@ import plotly.graph_objects as go
 import openai
 import os
 
+@st.cache_data
+
 # --- Connect to DuckDB ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # gets full path to current script
 DB_PATH = os.path.join(BASE_DIR, "..", "heymax_database", "heymax.duckdb")
