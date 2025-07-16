@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-  schedule:
-    # Singapore is UTC+8. GitHub Actions cron uses UTC timezone.
-      # To run every day at 8am Singapore time, use '0 0 * * *' (runs at 0:00 UTC, which is 8:00 SGT).
-      - cron: '0 0 * * *'
+  # schedule:
+  #   # Singapore is UTC+8. GitHub Actions cron uses UTC timezone.
+  #     # To run every day at 8am Singapore time, use '0 0 * * *' (runs at 0:00 UTC, which is 8:00 SGT).
+  #     - cron: '0 0 * * *'
 
 permissions:
   contents: write
